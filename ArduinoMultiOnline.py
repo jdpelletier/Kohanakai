@@ -11,24 +11,23 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 time.sleep(2)
 
 # Read and record the data
-values = []
-data1 =[]
-data2 =[]
-data3 = []                    # empty list to store the data
-t =[]
-i = 0
+#values = []
+#data1 =[]
+#data2 =[]
+#data3 = []                    # empty list to store the data
+#t =[]
 currentDay = datetime.date.today()
-path = FolderCreate(currentDay)
+path = Util.FolderCreate(currentDay)
 
 try:
     while(True):
         if currentDay != datetime.date.today():
             currentDay = datetime.date.today()
-            FolderCreate(currentDay)
+            path = Util.FolderCreate(currentDay)
         b = ser.readline()         # read a byte string
         string_n = b.decode()      # decode byte string into Unicode
-#        string = string_n.rstrip() # remove \n and \r
-        FileWrite(path, string_n)
+        string = string_n.rstrip() # remove \n and \r
+        Util.FileWrite(path, string)
 #        values = string.split()
 #        values[0] = float(values[0])
 #        values[1] = float(values[1])
@@ -50,9 +49,7 @@ try:
 #            )
 #            xydata = [xy1, xy2, xy3]
 #            first_plot_url = py.plot(xydata, filename = 'Temps', auto_open=False)
-#	    print i
-#        i += 1
-        time.sleep(5)            # wait 5 minutes
+        time.sleep(300)            # wait 5 minutes
 except KeyboardInterrupt:
     print('Script ended')
 
