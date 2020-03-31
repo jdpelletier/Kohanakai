@@ -2,22 +2,26 @@ import os
 import datetime
 
 def FileWrite(filepath, data):
-    filename = filepath + "dataFile.txt"
-    file = open(filename, W+)
-    file.write(data)
-    file.close()
+    filename = os.path.join(str(filepath), "dataFile.txt")
+    with open(filename, 'a') as f:
+        today = datetime.datetime.now()
+        time = today.time().strftime('%H:%M:%S')
+        f.write(time)
+        f.write(data)
+        f.write("\n")
+        f.close()
 
 
 def FolderCreate(today):
 
     todaystr = today.isoformat()
 
-    path = "C:\\Users\\johnp\\Desktop\\Kohanakai\\TestData\\%s" % todaystr
-
+    parent_directory = "/home/pi/Desktop/Kohanakai/TestData"
+    path = os.path.join(parent_directory, todaystr)
     try:
-        os.mkdir(todaystr)
+        os.mkdir(path)
     except OSError:
-        print ("Creation of the directory %s failed" % path)
+        print ("The folder %s is already created" % path)
     else:
         print ("Successfully created the directory %s " % path)
-        return path
+    return path
